@@ -7,7 +7,6 @@
 package MatlabTestBot;
 
 import Objects.Runner;
-import org.pircbotx.Colors;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.Configuration.*;
