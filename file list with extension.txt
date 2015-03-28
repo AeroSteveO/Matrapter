@@ -1,0 +1,23 @@
+s = dir('*.txt'); % s is structure array with fields name, 
+                   % date, bytes, isdir
+file_list = {s.name}'; % convert the name field from the elements
+                        % of the structure array into a cell array
+                        % of strings.
+
+
+
+function filelist=ls2list(filter)
+% ls2list creates a list of files that meet the filter requirements
+% filelist=ls2list(filter)
+%	filelist= matlab list of the files that match the filter requirements.
+%	filter= string to used with unix ls command to select files.
+% Note: This is unix dependant code.
+
+if nargin<1, filter=''; end
+[dummy fl]=unix(['ls -m ' filter]);
+fl=[',' strrep(strrep(fl,' ',''),10,'') ','];
+commas=findstr(fl,',');
+
+for i=length(commas):-1:2
+filelist{i-1}=fl(commas(i-1)+1:commas(i)-1);
+end
