@@ -8,8 +8,6 @@ package MatlabTestBot;
 
 import Utils.OSUtils;
 import matlabcontrol.*;
-import matlabcontrol.extensions.MatlabNumericArray;
-import matlabcontrol.extensions.MatlabTypeConverter;
 import org.pircbotx.Colors;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
@@ -66,16 +64,24 @@ public class Matlab extends ListenerAdapter{
                         return;
                     }
                     
-                    if (response.length()>=375){
-                        response = response.substring(0,Math.min(response.length(),375)).trim()+"...";
+                    
+                    if (responseType.equalsIgnoreCase("PRIVMSG")){
+                        if (response.length()>=375){
+                            response = response.substring(0,Math.min(response.length(),375)).trim()+"...";
+                        }
+                        event.getBot().sendIRC().message(event.getChannel().getName(),response);
                     }
                     
-                    if (responseType.equalsIgnoreCase("PRIVMSG"))
-                        event.getBot().sendIRC().message(event.getChannel().getName(),response);
-                    else if (responseType.equalsIgnoreCase("NOTICE"))
+                    else if (responseType.equalsIgnoreCase("NOTICE")){
                         event.getBot().sendIRC().notice(event.getUser().getNick(),response);
-                    else if (responseType.equalsIgnoreCase("ACTION"))
+                    }
+                    
+                    else if (responseType.equalsIgnoreCase("ACTION")){
+                        if (response.length()>=375){
+                            response = response.substring(0,Math.min(response.length(),375)).trim()+"...";
+                        }
                         event.getBot().sendIRC().action(event.getChannel().getName(),response);
+                    }
                 }
                 else{
                     event.getBot().sendIRC().notice(event.getUser().getNick(), "MATLAB is not currently connected, contact "+Global.botOwner+" to have it restarted");
