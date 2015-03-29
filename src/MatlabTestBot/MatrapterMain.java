@@ -61,6 +61,7 @@ public class MatrapterMain extends ListenerAdapter {
                 .setAutoNickChange(true)               // Automatically change nick when the current one is in use
                 .setCapEnabled(true)                   // Enable CAP features
                 .addAutoJoinChannel("#rapterverse")
+                .addAutoJoinChannel("#dtella")
                 .setAutoReconnect(true)
                 .setMaxLineLength(425)                 // This is for the IRC networks I use, it can be increased/decreased as needed
                 .setListenerManager(BackgroundListener)// Allow for logger background listener
