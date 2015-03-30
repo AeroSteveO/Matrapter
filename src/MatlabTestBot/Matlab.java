@@ -15,6 +15,21 @@ import org.pircbotx.hooks.events.MessageEvent;
 /**
  *
  * @author Stephen
+ * 
+ * Requirements:
+ * - APIs
+ *    MatlabControl
+ * - Custom Objects
+ *    N/A
+ * - Linked Classes
+ *    Global
+ *    
+ *
+ * Activate Commands with:
+ *      !matlab [matlab command/math equation/matlab function]
+ *          Runs the input matlab command, or responds with a denial message if
+ *          the command is blocked from being run
+ * 
  */
 public class Matlab extends ListenerAdapter{
     MatlabProxyFactory factory = setupProxyFactory();
@@ -24,7 +39,7 @@ public class Matlab extends ListenerAdapter{
     public void onMessage(MessageEvent event) throws Exception {
         String message = Colors.removeFormattingAndColors(event.getMessage().trim());
         
-        if (message.startsWith(Global.commandPrefix)&&message.length()>1){
+        if (message.startsWith(Global.commandPrefix)&&!message.matches("([ ]{0,}"+Global.commandPrefix+"{1,}[ ]{0,}){1,}")){
 //                        String command = message.split(Global.commandPrefix)[1];
             String[] cmdSplit = message.split(Global.commandPrefix)[1].split(" ");
             
