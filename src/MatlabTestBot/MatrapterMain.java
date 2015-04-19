@@ -64,13 +64,11 @@ public class MatrapterMain extends ListenerAdapter {
                 .addAutoJoinChannel("#dtella")
                 .setAutoReconnect(true)
                 .setMaxLineLength(425)                 // This is for the IRC networks I use, it can be increased/decreased as needed
-                .setListenerManager(BackgroundListener)// Allow for logger background listener
                 .addListener(new MatrapterMain())
 //                .addListener(new Logger())
                 .addListener(new BotControl())
                 .addListener(new Matlab())
                 .setServerHostname("irc.dhirc.com"); //Join the official #pircbotx channel
-        BackgroundListener.addListener(new Logger(),true); //Add logger background listener
         Configuration config = configuration.buildConfiguration();
         //bot.connect throws various exceptions for failures
         try {
