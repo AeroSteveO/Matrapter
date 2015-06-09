@@ -7,6 +7,9 @@
 package MatlabTestBot;
 
 import Objects.Runner;
+import Objects.SimpleSettings;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.Configuration.*;
@@ -15,7 +18,6 @@ import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.InviteEvent;
 import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
-import org.pircbotx.hooks.managers.BackgroundListenerManager;
 
 /**
  *
@@ -50,26 +52,56 @@ public class MatrapterMain extends ListenerAdapter {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         //Setup this bot
-        BackgroundListenerManager BackgroundListener = new BackgroundListenerManager();
+        SimpleSettings serverSettings = new SimpleSettings("BotSettings.json");
+        if (serverSettings.isEmpty()){
+            serverSettings.create("server", "irc.yoursite.com");
+            serverSettings.create("nick","Matrapter");
+            serverSettings.create("login", "MATLAB");
+            serverSettings.create("botowner", "yournick");
+            serverSettings.create("commandprefix", "!");
+            serverSettings.create("port", "6667");
+            serverSettings.create("channels",new ArrayList<String>(Arrays.asList(new String[]{"#channel1","#channel2"})));
+//            serverSettings.create("botadmins",new ArrayList<String>(Arrays.asList(new String[]{"admin1","admin2"})));
+            serverSettings.create("password","password");
+            serverSettings.save();
+            System.exit(0);
+        }
+        
+        ArrayList<String> channels = serverSettings.getArray("channels");
+        Global.mainNick = serverSettings.getString("nick");
+        Global.nickPass = serverSettings.getString("password");
+        Global.botOwner = serverSettings.getString("botowner");
+        Global.commandPrefix = serverSettings.getString("commandprefix");
         
         Configuration.Builder configuration = new Configuration.Builder()
-                .setName(Global.mainNick)                    //Set the nick of the bot. CHANGE IN YOUR CODE
-                .setLogin("MATLAB")                        // login part of hostmask, eg name:login@host
+                .setName(Global.mainNick)                // Set the nick of the bot. CHANGE IN YOUR CODE
+                .setLogin(serverSettings.getString("login"))               // login part of hostmask, eg name:login@host
+                .setAutoNickChange(true)             // Automatically change nick when the current one is in use
+                .setCapEnabled(true)                 // Enable CAP features
+//                .addAutoJoinChannel("#trivia")
+                .setNickservPassword(Global.nickPass)
                 .setFinger("Undefined function or variable 'finger'.")
                 .setNickservPassword(Global.nickPass)
                 .setAutoNickChange(true)               // Automatically change nick when the current one is in use
                 .setCapEnabled(true)                   // Enable CAP features
-                .addAutoJoinChannel("#rapterverse")
-                .addAutoJoinChannel("#dtella")
                 .setAutoReconnect(true)
                 .setMaxLineLength(425)                 // This is for the IRC networks I use, it can be increased/decreased as needed
                 .addListener(new MatrapterMain())
 //                .addListener(new Logger())
                 .addListener(new BotControl())
                 .addListener(new Matlab())
-                .setServerHostname("irc.dhirc.com"); //Join the official #pircbotx channel
+                .setServerPort(Integer.parseInt(serverSettings.getString("port")))
+                .setServerHostname(serverSettings.getString("server")); //Join the official #pircbotx channel
+//        Configuration config = configuration.buildConfiguration();
+        
+        for (int i=0;i<channels.size();i++){ //Add channels from XML and load into channels Object
+            configuration.addAutoJoinChannel(channels.get(i));
+        }
         Configuration config = configuration.buildConfiguration();
+
+
         //bot.connect throws various exceptions for failures
         try {
             Global.bot = new PircBotX(config);
