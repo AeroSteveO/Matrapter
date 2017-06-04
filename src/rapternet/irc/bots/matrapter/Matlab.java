@@ -4,9 +4,9 @@
 * and open the template in the editor.
 */
 
-package MatlabTestBot;
+package rapternet.irc.bots.matrapter;
 
-import Utils.OSUtils;
+import rapternet.irc.bots.matrapter.utils.OSUtils;
 import matlabcontrol.*;
 import org.pircbotx.Colors;
 import org.pircbotx.hooks.ListenerAdapter;

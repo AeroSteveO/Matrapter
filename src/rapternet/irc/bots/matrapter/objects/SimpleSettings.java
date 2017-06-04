@@ -11,7 +11,7 @@
 
 
 
-package Objects;
+package rapternet.irc.bots.matrapter.objects;
 
 import java.io.BufferedWriter;
 import java.io.File;

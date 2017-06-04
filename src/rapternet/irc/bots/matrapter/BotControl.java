@@ -4,7 +4,7 @@
 * and open the template in the editor.
 */
 
-package MatlabTestBot;
+package rapternet.irc.bots.matrapter;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

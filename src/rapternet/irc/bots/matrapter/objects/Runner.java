@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package Objects;
+package rapternet.irc.bots.matrapter.objects;
 
-import MatlabTestBot.Global;
+import rapternet.irc.bots.matrapter.Global;
 import java.io.IOException;
 import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;

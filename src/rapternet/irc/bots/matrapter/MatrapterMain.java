@@ -4,10 +4,10 @@
 * and open the template in the editor.
 */
 
-package MatlabTestBot;
+package rapternet.irc.bots.matrapter;
 
-import Objects.Runner;
-import Objects.SimpleSettings;
+import rapternet.irc.bots.matrapter.objects.Runner;
+import rapternet.irc.bots.matrapter.objects.SimpleSettings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.pircbotx.Configuration;
